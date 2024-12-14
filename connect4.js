@@ -107,9 +107,78 @@ class Game {
     // switch players
     this.currPlayer = this.currPlayer ===   this.players[0] ? this.players[1] : this.players[0];
   }
+  checkForWin() {
+    const _win= cells => {
+    // Check four cells to see if they're all color of current player
+    //  - cells: list of four (y, x) cells
+    //  - returns true if all are legal coordinates & all match currPlayer
 
-  
+      return cells.every(
+      ([y, x]) =>
+        y >= 0 &&
+        y < this.height &&
+        x >= 0 &&
+        x < this.width &&
+        board[y][x] === this.currPlayer
+      );
+    }
+
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+      // get "check list" of 4 cells (starting here) for each of the different
+      // ways to win
+      const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+      const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
+      const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+
+      // find winner (only checking each win-possibility as needed)
+      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+        return true;
+      }
+     }
+    }
+  }
+
+  resetGame (){
+  //Resetting the game variables and board
+    this.gameOver = false;
+
+  //getting player colors from the form
+   const player1Color = document.getElementById('player1').value;
+  const player2Color = document.getElementById('player2').value;
+
+    // Error handling for invalid color values
+    if (!this.isValidColor(player1Color) || !this.isValidColor(player2Color)) {
+      alert('Please enter valid color values for the players.');
+      return;
+    }
+    this.players = [new Player(player1Color), new Player(player2Color)];
+    this.currPlayer = this.players[0];
+
+    // Clearing the existing board
+    const board = document.getElementById('board');
+    board.innerHTML = ''; // Clearing the board content
+
+    this.board = [];
+    this.makeBoard();
+    this.makeHtmlBoard();
+  }
+  isValidColor(color) {
+    // Regular expression to match valid color formats
+    const colorRegex = /^(#[0-9a-f]{6}|#[0-9a-f]{3}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|[a-zA-Z]+)$/i;
+    return colorRegex.test(color);
+  }
 }
+
+class Player {
+  constructor(color) {
+      this.color = color;
+  }
+}
+
+// Creating a new game instance when the page loads
+const game = new Game(6, 7);
 
 
 
@@ -248,38 +317,38 @@ class Game {
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
-function checkForWin() {
-  function _win(cells) {
-    // Check four cells to see if they're all color of current player
-    //  - cells: list of four (y, x) cells
-    //  - returns true if all are legal coordinates & all match currPlayer
+// function checkForWin() {
+//   function _win(cells) {
+//     // Check four cells to see if they're all color of current player
+//     //  - cells: list of four (y, x) cells
+//     //  - returns true if all are legal coordinates & all match currPlayer
 
-    return cells.every(
-      ([y, x]) =>
-        y >= 0 &&
-        y < HEIGHT &&
-        x >= 0 &&
-        x < WIDTH &&
-        board[y][x] === currPlayer
-    );
-  }
+//     return cells.every(
+//       ([y, x]) =>
+//         y >= 0 &&
+//         y < HEIGHT &&
+//         x >= 0 &&
+//         x < WIDTH &&
+//         board[y][x] === currPlayer
+//     );
+//   }
 
-  for (let y = 0; y < HEIGHT; y++) {
-    for (let x = 0; x < WIDTH; x++) {
-      // get "check list" of 4 cells (starting here) for each of the different
-      // ways to win
-      const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-      const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+//   for (let y = 0; y < HEIGHT; y++) {
+//     for (let x = 0; x < WIDTH; x++) {
+//       // get "check list" of 4 cells (starting here) for each of the different
+//       // ways to win
+//       const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+//       const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+//       const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
+//       const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
-      // find winner (only checking each win-possibility as needed)
-      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
-        return true;
-      }
-    }
-  }
-}
+//       // find winner (only checking each win-possibility as needed)
+//       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+//         return true;
+//       }
+//     }
+//   }
+// }
 
-makeBoard();
-makeHtmlBoard();
+// makeBoard();
+// makeHtmlBoard();
