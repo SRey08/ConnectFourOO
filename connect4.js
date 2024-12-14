@@ -1,3 +1,48 @@
+class Game {
+  constructor(height = 6, width =7){
+    this.height = height;
+    this.width = width;
+    this.board = [];
+    this.currPlayer = 1;
+    this.gameOver = false;
+    this.makeBoard();
+    this.makeHtmlBoard();
+    this.handleClick = this.handleClick.bind(this);//Binding handleClick to the correct context
+
+    //Adding even listener to start button
+    document.getElementById('start game').addEventListener('click',() => {
+      this.resetGame();
+     });
+  }
+
+   makeBoard (){
+    for (let y = 0; y < this.height; y++) {
+      this.board.push(Array.from({ length: this.width}));
+    }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /** Connect Four
  *
  * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
