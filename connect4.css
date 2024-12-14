@@ -1,9 +1,20 @@
-/* game board table */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #f05e39, #60d1f4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+h1 {
+  text-align: center;
+}
+/* game board table */
 #board td {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  border: solid 2px #000000;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -16,17 +27,17 @@
 }
 
 .piece.p1 {
-  background-color: red;
+  background-color: rgba(250, 36, 36, 0.664);
 }
 
 .piece.p2 {
-  background-color: blue;
+  background-color: rgb(5, 5, 252);
 }
 
 /* column-top is table row of clickable areas for each column */
 
 #column-top td {
-  border: dashed 1px lightgray;
+  border: dashed 2px lightgray;
 }
 
 #column-top td:hover {
