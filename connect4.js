@@ -51,6 +51,62 @@ class Game {
       board.append(row);
     }
   }
+     findSpotForCol(x) {
+        for (let y = this.height - 1; y >= 0; y--) {
+        if (!board[y][x]) {
+        return y;
+        }
+      }
+      return null;
+  }
+
+  placeInTable(y, x) {
+      const piece = document.createElement('div');
+      piece.classList.add('piece');
+      piece.classList.add(`p${this.currPlayer}`);
+      piece.style.top = -50 * (y + 2);
+      piece.style.backgroundColor = this.currPlayer.color; // setting the peice color
+  
+      const spot = document.getElementById(`${y}-${x}`);
+      spot.append(piece);
+  }
+
+  endGame(msg) {
+    alert(msg);
+    this.gameOver = true ; //setting gameOver to true when the game ends
+  }
+
+  handleClick(evt) {
+    if (this.gameOver){
+      return; // doesnt allow further moves if the game has ended. 
+    }
+
+    // get x from ID of clicked cell
+    const x = +evt.target.id;
+  
+    // get next spot in column (if none, ignore click)
+    const y = this.findSpotForCol(x);
+    if (y === null) {
+      return;
+    }
+  
+    // place piece in board and add to HTML table
+    board[y][x] = this.currPlayer;
+    placeInTable(y, x);
+    
+    // check for win
+    if (this.checkForWin()) {
+      return this.endGame(`Player ${currPlayer} won!`);
+    }
+    
+    // check for tie
+    if (board.every(row => row.every(cell => cell))) {
+      return this.endGame('Tie!');
+    }
+      
+    // switch players
+    this.currPlayer = this.currPlayer ===   this.players[0] ? this.players[1] : this.players[0];
+  }
 
   
 }
@@ -133,62 +189,62 @@ class Game {
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
-function findSpotForCol(x) {
-  for (let y = HEIGHT - 1; y >= 0; y--) {
-    if (!board[y][x]) {
-      return y;
-    }
-  }
-  return null;
-}
+// function findSpotForCol(x) {
+//   for (let y = HEIGHT - 1; y >= 0; y--) {
+//     if (!board[y][x]) {
+//       return y;
+//     }
+//   }
+//   return null;
+// }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
-function placeInTable(y, x) {
-  const piece = document.createElement('div');
-  piece.classList.add('piece');
-  piece.classList.add(`p${currPlayer}`);
-  piece.style.top = -50 * (y + 2);
+// function placeInTable(y, x) {
+//   const piece = document.createElement('div');
+//   piece.classList.add('piece');
+//   piece.classList.add(`p${currPlayer}`);
+//   piece.style.top = -50 * (y + 2);
 
-  const spot = document.getElementById(`${y}-${x}`);
-  spot.append(piece);
-}
+//   const spot = document.getElementById(`${y}-${x}`);
+//   spot.append(piece);
+// }
 
 /** endGame: announce game end */
 
-function endGame(msg) {
-  alert(msg);
-}
+// function endGame(msg) {
+//   alert(msg);
+// }
 
 /** handleClick: handle click of column top to play piece */
 
-function handleClick(evt) {
-  // get x from ID of clicked cell
-  const x = +evt.target.id;
+// function handleClick(evt) {
+//   // get x from ID of clicked cell
+//   const x = +evt.target.id;
 
-  // get next spot in column (if none, ignore click)
-  const y = findSpotForCol(x);
-  if (y === null) {
-    return;
-  }
+//   // get next spot in column (if none, ignore click)
+//   const y = findSpotForCol(x);
+//   if (y === null) {
+//     return;
+//   }
 
-  // place piece in board and add to HTML table
-  board[y][x] = currPlayer;
-  placeInTable(y, x);
+//   // place piece in board and add to HTML table
+//   board[y][x] = currPlayer;
+//   placeInTable(y, x);
   
-  // check for win
-  if (checkForWin()) {
-    return endGame(`Player ${currPlayer} won!`);
-  }
+//   // check for win
+//   if (checkForWin()) {
+//     return endGame(`Player ${currPlayer} won!`);
+//   }
   
-  // check for tie
-  if (board.every(row => row.every(cell => cell))) {
-    return endGame('Tie!');
-  }
+//   // check for tie
+//   if (board.every(row => row.every(cell => cell))) {
+//     return endGame('Tie!');
+//   }
     
-  // switch players
-  currPlayer = currPlayer === 1 ? 2 : 1;
-}
+//   // switch players
+//   currPlayer = currPlayer === 1 ? 2 : 1;
+// }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
