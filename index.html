@@ -6,13 +6,21 @@
 <body>
 
 
-<input type="text" name="player one" id="players" placeholder="Player 1!">
-<input type="text" name="player two" id="players" placeholder="Player 2!">
-  
-<button id="start game">Start Game</button>
+<div class = "container">
 
-<div id="game">
+  <h1>Connect 4</h1>
+
+  <div id="player-name">
+  <input type="text" name="player one" id="players" placeholder="Player 1!">
+  <input type="text" name="player two" id="players" placeholder="Player 2!">
+  </div>
+
+  <button id="start game">Start Game</button>
+
+  <div id="game">
   <table id="board"></table>
+  </div>
+
 </div>
 
 <script src="connect4.js"></script>
