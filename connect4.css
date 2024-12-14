@@ -10,6 +10,14 @@ body {
 h1 {
   text-align: center;
 }
+
+#player-name {
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  margin-bottom: auto;
+}
+
 /* game board table */
 #board td {
   width: 50px;
