@@ -34,13 +34,13 @@ h1 {
   border-radius: 50%;
 }
 
-.piece.p1 {
+/* .piece.p1 {
   background-color: rgba(250, 36, 36, 0.664);
 }
 
 .piece.p2 {
   background-color: rgb(5, 5, 252);
-}
+} */
 
 /* column-top is table row of clickable areas for each column */
 
